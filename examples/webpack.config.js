@@ -17,7 +17,7 @@ module.exports = {
 
   resolve: {
     alias: {
-      "react-bootstrap-datetimepicker": "../../src/DateTimeField"
+      "react-bootstrap-datetimepicker": "../../lib/DateTimeField"
     },
     extensions: ["", ".js"]
   },

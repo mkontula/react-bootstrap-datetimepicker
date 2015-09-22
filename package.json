@@ -73,7 +73,6 @@
     "html-webpack-plugin": "^1.1.0",
     "jest-cli": "^0.5.0",
     "jsx-loader": "^0.12.2",
-    "react": ">=0.14.0-rc1",
     "requirejs": "~2.1.9",
     "webpack": "^1.11.1",
     "webpack-dev-server": "^1.10.1"
@@ -82,6 +81,7 @@
     "babel-runtime": "5.8.24",
     "classnames": "^2.1.2",
     "moment": "^2.8.2",
-    "react-bootstrap": "0.25.100-react-pre.1"
+    "react-bootstrap": "0.25.100-react-pre.1",
+    "react": ">=0.14.0-rc1"
   }
 }
