@@ -38,7 +38,8 @@ export default class DateTimePicker extends Component {
     widgetStyle: PropTypes.object,
     togglePicker: PropTypes.func,
     setSelectedHour: PropTypes.func,
-    setSelectedMinute: PropTypes.func
+    setSelectedMinute: PropTypes.func,
+    showPicker: PropTypes.bool
   }
 
   renderDatePicker = () => {
@@ -100,22 +101,19 @@ export default class DateTimePicker extends Component {
   }
 
   render() {
-    return (
-      <div className={classnames(this.props.widgetClasses)} style={this.props.widgetStyle}>
-
-        <ul className="list-unstyled">
-
-          {this.renderDatePicker()}
-
-          {this.renderSwitchButton()}
-
-          {this.renderTimePicker()}
-
-        </ul>
-
-      </div>
-
-    );
+    if (this.props.showPicker) {
+      return (
+        <div className={classnames(this.props.widgetClasses)} style={this.props.widgetStyle}>
+          <ul className="list-unstyled">
+            {this.renderDatePicker()}
+            {this.renderSwitchButton()}
+            {this.renderTimePicker()}
+          </ul>
+        </div>
+      );
+    } else {
+      return (<div/>);
+    }
   }
 }
 

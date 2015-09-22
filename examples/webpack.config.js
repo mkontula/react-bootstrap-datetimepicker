@@ -7,6 +7,8 @@ module.exports = {
     "basic": "./examples/basic/basic.js"
   },
 
+  target: "web",
+
   output: {
     path: __dirname,
     filename: "[name].js",
@@ -23,6 +25,9 @@ module.exports = {
   },
 
   module: {
+    preLoaders: [
+      {test: /\.js$/, loader: "eslint-loader"}
+    ],
     loaders: [
       { test: /\.js?$/, exclude: /node_modules/, loader: "babel-loader" }
     ]

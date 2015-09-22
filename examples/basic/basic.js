@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import DateTimeField from "react-bootstrap-datetimepicker";
 import moment from "moment";
 
@@ -20,13 +21,13 @@ class ParentComponent extends Component {
 
   render() {
     const {date, format, mode, inputFormat} = this.state;
-    return <DateTimeField
+    return (<DateTimeField
       dateTime={date}
       format={format}
-      viewMode={mode}
       inputFormat={inputFormat}
       onChange={this.handleChange}
-    />;
+      viewMode={mode}
+    />);
   }
 }
 
@@ -157,4 +158,4 @@ class Basic extends Component {
 
 
 
-React.render(React.createFactory(Basic)(), document.getElementById("example"));
+ReactDOM.render(<Basic/>, document.getElementById("example"));
