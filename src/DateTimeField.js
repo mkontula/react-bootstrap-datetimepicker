@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import moment from "moment";
-import { Glyphicon } from "react-bootstrap";
+import { Glyphicon, OverlayTrigger, Popover } from "react-bootstrap";
 import DateTimePicker from "./DateTimePicker.js";
 import Constants from "./Constants.js";
 
@@ -12,6 +12,7 @@ export default class DateTimeField extends Component {
     viewMode: "days",
     daysOfWeekDisabled: [],
     mode: Constants.MODE_DATETIME,
+    timeMode: Constants.MODE_24H,
     onChange: (x) => {
       console.log(x);
     }
@@ -37,6 +38,7 @@ export default class DateTimeField extends Component {
     inputFormat: PropTypes.string,
     defaultText: PropTypes.string,
     mode: PropTypes.oneOf([Constants.MODE_DATE, Constants.MODE_DATETIME, Constants.MODE_TIME]),
+    timeMode: PropTypes.oneOf([Constants.MODE_24H, Constants.AMPM]),
     minDate: PropTypes.object,
     maxDate: PropTypes.object,
     direction: PropTypes.string,
@@ -52,9 +54,9 @@ export default class DateTimeField extends Component {
       buttonIcon: this.props.mode === Constants.MODE_TIME ? "time" : "calendar",
       widgetStyle: {
         display: "block",
-        position: "absolute",
-        left: -9999,
-        zIndex: "9999 !important"
+//        position: "absolute",
+//        left: -9999,
+//        zIndex: "9999 !important"
       },
       viewDate: moment(this.props.dateTime, this.props.format, true).startOf("month"),
       selectedDate: moment(this.props.dateTime, this.props.format, true),
@@ -155,8 +157,12 @@ export default class DateTimeField extends Component {
   }
 
   addMinute = () => {
+    let addMinutes = 1;
+    if (this.props.inputProps && this.props.inputProps.stepping) {
+      addMinutes = this.props.inputProps.stepping;
+    }
     return this.setState({
-      selectedDate: this.state.selectedDate.clone().add(1, "minutes")
+      selectedDate: this.state.selectedDate.clone().add(addMinutes, "minutes")
     }, function() {
       this.props.onChange(this.state.selectedDate.format(this.props.format));
       return this.setState({
@@ -268,7 +274,16 @@ export default class DateTimeField extends Component {
       };
       offset.top = offset.top + this.refs.datetimepicker.offsetHeight;
       scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
-      placePosition = this.props.direction === "up" ? "top" : this.props.direction === "bottom" ? "bottom" : this.props.direction === "auto" ? offset.top + this.refs.widget.offsetHeight > window.offsetHeight + scrollTop && this.refs.widget.offsetHeight + this.refs.datetimepicker.offsetHeight > offset.top ? "top" : "bottom" : void 0;
+      placePosition = 
+        this.props.direction === "up" 
+          ? "top" 
+          : this.props.direction === "bottom" 
+            ? "bottom" 
+            : this.props.direction === "auto" 
+              ? offset.top + this.refs.widget.offsetHeight > window.offsetHeight + scrollTop && this.refs.widget.offsetHeight + this.refs.datetimepicker.offsetHeight > offset.top 
+                ? "top" 
+                : "bottom" 
+              : void 0;
       if (placePosition === "top") {
         offset.top = -this.refs.widget.offsetHeight - this.clientHeight - 2;
         classes.top = true;
@@ -288,20 +303,14 @@ export default class DateTimeField extends Component {
         right: 40
       };
       return this.setState({
-        widgetStyle: styles,
-        widgetClasses: classes
+        // widgetStyle: styles,
+        widgetClasses: {classes}
       });
     }
   }
 
   closePicker = () => {
-    // let style = this.state.widgetStyle;
-    // style.left = -9999;
-    // style.display = "none";
-    return this.setState({
-      showPicker: false,
-      // widgetStyle: style
-    });
+    this.refs.overlay.hide();
   }
 
   renderOverlay = () => {
@@ -322,9 +331,12 @@ export default class DateTimeField extends Component {
 
   render() {
     return (
-          <div>
-            {this.renderOverlay()}
-            <DateTimePicker ref="widget"
+            <div className="input-group date" ref="datetimepicker">
+              <input type="text" className="form-control" onChange={this.onChange} value={this.state.inputValue} {...this.props.inputProps}/>
+              <span className="input-group-btn" ref="dtpbutton">
+              <OverlayTrigger trigger="click" rootClose={true} placement="left" ref="overlay" overlay={
+                <Popover title="" id="">
+                <DateTimePicker ref="widget"
                   addDecade={this.addDecade}
                   addHour={this.addHour}
                   addMinute={this.addMinute}
@@ -334,6 +346,7 @@ export default class DateTimeField extends Component {
                   maxDate={this.props.maxDate}
                   minDate={this.props.minDate}
                   mode={this.props.mode}
+                  timeMode={this.props.timeMode}
                   selectedDate={this.state.selectedDate}
                   setSelectedDate={this.setSelectedDate}
                   setSelectedHour={this.setSelectedHour}
@@ -352,15 +365,16 @@ export default class DateTimeField extends Component {
                   togglePicker={this.togglePicker}
                   viewDate={this.state.viewDate}
                   viewMode={this.props.viewMode}
-                  widgetClasses={this.state.widgetClasses}
+                  widgetClasses={{"bootstrap-datetimepicker-widget": true}}
                   widgetStyle={this.state.widgetStyle}
-                  showPicker={this.state.showPicker}
-            />
-            <div className="input-group date" ref="datetimepicker">
-              <input type="text" className="form-control" onChange={this.onChange} value={this.state.inputValue} {...this.props.inputProps}/>
-              <span className="input-group-addon" onClick={this.onClick} onBlur={this.onBlur} ref="dtpbutton"><Glyphicon glyph={this.state.buttonIcon} /></span>
+                  showPicker={true}
+                />
+                </Popover>
+              }>
+                <button className="btn btn-default"><Glyphicon glyph={this.state.buttonIcon} /></button>
+              </OverlayTrigger>
+              </span>
             </div>
-          </div>
     );
   }
 }

@@ -15,7 +15,8 @@ export default class DateTimePickerTime extends Component {
     viewDate: PropTypes.object.isRequired,
     selectedDate: PropTypes.object.isRequired,
     togglePeriod: PropTypes.func.isRequired,
-    mode: PropTypes.oneOf([Constants.MODE_DATE, Constants.MODE_DATETIME, Constants.MODE_TIME])
+    mode: PropTypes.oneOf([Constants.MODE_DATE, Constants.MODE_DATETIME, Constants.MODE_TIME]),
+    timeMode: PropTypes.oneOf([Constants.MODE_24H, Constants.AMPM]),
   }
 
   state = {
@@ -59,6 +60,7 @@ export default class DateTimePickerTime extends Component {
   }
 
   renderPicker = () => {
+    let hourFormat = (this.props.timeMode === Constants.MODE_24H) ? 'HH' : 'h';
     if (!this.state.minutesDisplayed && !this.state.hoursDisplayed) {
       return (
       <div className="timepicker-picker">
@@ -75,7 +77,7 @@ export default class DateTimePickerTime extends Component {
             </tr>
 
             <tr>
-              <td><span className="timepicker-hour" onClick={this.showHours}>{this.props.selectedDate.format("h")}</span></td>
+              <td><span className="timepicker-hour" onClick={this.showHours}>{this.props.selectedDate.format(hourFormat)}</span></td>
 
               <td className="separator">:</td>
 
@@ -83,7 +85,7 @@ export default class DateTimePickerTime extends Component {
 
               <td className="separator"></td>
 
-              <td><button className="btn btn-primary" onClick={this.props.togglePeriod} type="button">{this.props.selectedDate.format("A")}</button></td>
+              <td>{this.props.timeMode === Constants.MODE_AMPM && <button className="btn btn-primary" onClick={this.props.togglePeriod} type="button">{this.props.selectedDate.format("A")}</button>}</td>
             </tr>
 
             <tr>

@@ -137,9 +137,9 @@ class Basic extends Component {
               <div className="col-xs-12">
                   just time picker
                   <DateTimeField
-                      mode="time"
+                      mode="time" inputFormat="HH:mm" dateTime="2015-09-22 15:00" inputProps={{stepping: 15}} format="YYYY-MM-DD HH:mm"
                       />
-                  <pre> {'<DateTimeField mode="time" />'} </pre>
+                  <pre> {'<DateTimeField mode="time" inputFormat="HH:mm" />'} </pre>
               </div>
             </div>
             <div className="row">

@@ -19,6 +19,7 @@ export default class DateTimePicker extends Component {
       PropTypes.number
     ]),
     mode: PropTypes.oneOf([Constants.MODE_DATE, Constants.MODE_DATETIME, Constants.MODE_TIME]),
+    timeMode: PropTypes.oneOf([Constants.MODE_24H, Constants.AMPM]),
     daysOfWeekDisabled: PropTypes.array,
     setSelectedDate: PropTypes.func.isRequired,
     subtractYear: PropTypes.func.isRequired,
@@ -77,6 +78,7 @@ export default class DateTimePicker extends Component {
               addHour={this.props.addHour}
               addMinute={this.props.addMinute}
               mode={this.props.mode}
+              timeMode={this.props.timeMode}
               selectedDate={this.props.selectedDate}
               setSelectedHour={this.props.setSelectedHour}
               setSelectedMinute={this.props.setSelectedMinute}
