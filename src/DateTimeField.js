@@ -201,8 +201,12 @@ export default class DateTimeField extends Component {
   }
 
   subtractMinute = () => {
+	let minusMinutes = -1;
+	if (this.props.inputProps && this.props.inputProps.stepping) {
+      minusMinutes = -this.props.inputProps.stepping;
+    }
     return this.setState({
-      selectedDate: this.state.selectedDate.clone().subtract(1, "minutes")
+      selectedDate: this.state.selectedDate.clone().subtract(minusMinutes, "minutes")
     }, () => {
       this.props.onChange(this.state.selectedDate.format(this.props.format));
       return this.setState({
