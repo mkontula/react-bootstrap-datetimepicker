@@ -278,15 +278,15 @@ export default class DateTimeField extends Component {
       };
       offset.top = offset.top + this.refs.datetimepicker.offsetHeight;
       scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
-      placePosition = 
-        this.props.direction === "up" 
-          ? "top" 
-          : this.props.direction === "bottom" 
-            ? "bottom" 
-            : this.props.direction === "auto" 
-              ? offset.top + this.refs.widget.offsetHeight > window.offsetHeight + scrollTop && this.refs.widget.offsetHeight + this.refs.datetimepicker.offsetHeight > offset.top 
-                ? "top" 
-                : "bottom" 
+      placePosition =
+        this.props.direction === "up"
+          ? "top"
+          : this.props.direction === "bottom"
+            ? "bottom"
+            : this.props.direction === "auto"
+              ? offset.top + this.refs.widget.offsetHeight > window.offsetHeight + scrollTop && this.refs.widget.offsetHeight + this.refs.datetimepicker.offsetHeight > offset.top
+                ? "top"
+                : "bottom"
               : void 0;
       if (placePosition === "top") {
         offset.top = -this.refs.widget.offsetHeight - this.clientHeight - 2;
@@ -375,11 +375,10 @@ export default class DateTimeField extends Component {
                 />
                 </Popover>
               }>
-                <button className="btn btn-default"><Glyphicon glyph={this.state.buttonIcon} /></button>
+                <a className="btn btn-default"><Glyphicon glyph={this.state.buttonIcon} /></a>
               </OverlayTrigger>
               </span>
             </div>
     );
   }
 }
-
